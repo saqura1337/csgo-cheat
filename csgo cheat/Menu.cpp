@@ -56,10 +56,6 @@ bool Tab(const char* label, const ImVec2& size_arg, const bool selected)
 
 	ImU32 color_text = ImGui::GetColorU32(ImLerp(ImVec4(255 / 255.f, 255 / 255.f, 255 / 255.f, 1.0f), ImVec4(255 / 255.f, 255 / 255.f, 255 / 255.f, 1.0f), it_Selected->second.size));
 
-	//window->DrawList->AddRectFilled(ImVec2(bb.Min.x, bb.Min.y + size_arg.y / 3), ImVec2(bb.Max.x, bb.Max.y - size_arg.y / 3), ImGui::GetColorU32(ImVec4(26 / 255.f, 26 / 255.f, 30 / 255.f, 1.0f)), 3);
-	//window->DrawList->AddRect(ImVec2(bb.Min.x - 1, (bb.Min.y + size_arg.y / 3) - 1), ImVec2(bb.Max.x + 1, (bb.Max.y - size_arg.y / 3) + 1), ImGui::GetColorU32(ImVec4(38 / 255.f, 38 / 255.f, 42 / 255.f, 1.0f)), 3);//outline
-		// hover animation
-
 	if (selected)
 	{
 		window->DrawList->AddRectFilled(ImVec2(bb.Min.x + 1, bb.Max.y + 1), ImVec2(bb.Max.x + 1, bb.Max.y + 2), ImColor(124, 252, 0, 255));
@@ -184,35 +180,7 @@ void C_Menu::Instance()
 	}
 	ImGui::EndGroup();
 	ImGui::PopClipRect();
-
-	/*switch (tab)
-	{
-	case 0:
-	ImGui::SetCursorPos({ 0, 55 });
-	ImGui::BeginGroup();
-	{
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(43, 0));
-		if (ImGui::subtub("Main", subtab == 0)) subtab = 0;
-		if (ImGui::subtub("Accuracy", subtab == 1)) subtab = 1;
-		if (ImGui::subtub("Exploits", subtab == 2)) subtab = 2;
-		ImGui::PopStyleVar();
-	}
-	ImGui::EndGroup();
-	break;
-	}
-
-	ImGui::GetOverlayDrawList()->AddRectFilled({ pos.x + 3,pos.y + 43 }, { pos.x + 797,pos.y + 500 }, ImGui::GetColorU32(ImVec4(3 / 255.0f, 16 / 255.0f, 32 / 255.0f, 170 / 255.f)), 3);
-	ImGui::GetOverlayDrawList()->AddRectFilled({ pos.x + 3,pos.y + 43 }, { pos.x + 797,pos.y + 450 }, ImGui::GetColorU32(ImVec4(22 / 255.0f, 22 / 255.0f, 26 / 255.0f, tab_alpha)), 3);
-
-	if (ImGui::Button("Keybinds", ImVec2(100, 20)))
-	{
-	const char* txt = g_cfg->m_aDoubleTap->m_iModeSelected == 1 ? "Toggle" : "Hold";
-	ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(pos.x + 500, pos.y + 200), ImVec2(pos.x + 500, pos.y + 200), ImColor(255, 255, 255, 255));
-	ImGui::Text("Doubletap mode ");
-	ImGui::Text(txt);
-	}*/
 	ImGui::SetCursorPos(ImVec2(30, 0 - 10));
-	//	ImGui::Image(g_Menu->GetTexture(), ImVec2(70, 70));
 	ImGui::End();
 }
 
@@ -722,7 +690,7 @@ void C_Menu::DrawPlayersTab()
 	ImGui::Checkbox(_S("Enable Chams"), &g_cfg->m_aChamsSettings[iChamsGroup].m_bRenderChams);
 	this->DrawColorEdit4(_S("##qweqwe"), &g_cfg->m_aChamsSettings[iChamsGroup].m_Color);
 
-	ImGui::SingleSelect(_S("Material"), &g_cfg->m_aChamsSettings[iChamsGroup].m_iMainMaterial, { _S("Flat"), _S("Regular"), _S("Glow"), _S("Glow"), _S("Pearlescent")});
+	ImGui::SingleSelect(_S("Material"), &g_cfg->m_aChamsSettings[iChamsGroup].m_iMainMaterial, { _S("Flat"), _S("Regular"), _S("Glow"), _S("Glow"), _S("Pearlescent") });
 
 	ImGui::Checkbox(_S("Enable Glow"), &g_cfg->m_aChamsSettings[iChamsGroup].m_aModifiers[0]);
 	this->DrawColorEdit4(_S("##512414 color"), &g_cfg->m_aChamsSettings[iChamsGroup].m_aModifiersColors[0]);
@@ -826,28 +794,6 @@ void C_Menu::DrawPlayersTab()
 		ImGui::PopFont();
 	}
 
-	//Color aFlagAColor = Color(Settings->m_Colors[1]);
-	//if (Settings->m_Flags[1])
-	//{
-	//	if (!g_sdk.local)
-	//		return;
-
-	//	auto kevlar = g_sdk.local->m_ArmourValue() > 0;
-	//	auto helmet = g_sdk.local->m_bHasHelmet();
-
-	//	const char* text;
-
-	//	if (helmet && kevlar)
-	//		text = "q";
-	//	else if (kevlar)
-	//		text = "p";
-
-	//	ImGui::PushFont(g_sdk.fonts.m_WeaponIcon);
-	//	ImGui::GetOverlayDrawList()->AddText(ImVec2(vecWindowPosition.x + 687 + 350 - ImGui::CalcTextSize(text).x, vecWindowPosition.y + 43), ImColor(aFlagAColor.r(), aFlagAColor.g(), aFlagAColor.b(), aFlagAColor.a()), text);
-
-	//	ImGui::PopFont();
-	//}
-
 	Color aFlagFColor = Color(Settings->m_Colors[2]);
 	if (Settings->m_Flags[2])
 	{
@@ -888,7 +834,7 @@ void C_Menu::DrawPlayersTab()
 	if (Settings->m_RenderWeaponText)
 	{
 		ImGui::PushFont(g_sdk.fonts.m_SegoeUI);
-		ImGui::GetOverlayDrawList()->AddText(ImVec2(vecWindowPosition.x + 715 + 150 + 85 - ImGui::CalcTextSize(_S("SSG08")).x / 2, vecWindowPosition.y + 385 + 6), ImColor(aWeaponText.r(), aWeaponText.g(), aWeaponText.b(), aWeaponText.a()), _S("SSG08"));
+		ImGui::GetOverlayDrawList()->AddText(ImVec2(vecWindowPosition.x + 715 + 150 + 85 - ImGui::CalcTextSize(_S("AXE")).x / 2, vecWindowPosition.y + 385 + 6), ImColor(aWeaponText.r(), aWeaponText.g(), aWeaponText.b(), aWeaponText.a()), _S("SSG08"));
 		ImGui::PopFont();
 	}
 
@@ -971,87 +917,89 @@ void C_Menu::DrawMiscTab()
 	ImGui::SameLine();
 
 	ImGui::SetCursorPos(ImVec2(80, 78 + tab_padding));
-	ImGui::BeginChild(_S("Other"), ImVec2(iChildDoubleSizeX, 300));
+	ImGui::BeginChild(_S("Other"), ImVec2(iChildDoubleSizeX, 380));
 	{
 		ImGui::Checkbox(_S("Anti Untrusted"), g_cfg->m_bAntiUntrusted);
 
-		std::vector <const char*> t_model =
+		std::vector < const char* > t_model
+			=
 		{
-			_S("None"),
-	_S("Getaway Sally | The Professionals"),
-	_S("Number K | The Professionals"),
-	_S("Little Kev | The Professionals"),
-	_S("Safecracker Voltzmann | The Professionals"),
-	_S("Bloody Darryl The Strapped | The Professionals"),
-	_S("Sir Bloody Loudmouth Darryl | The Professionals"),
-	_S("Sir Bloody Darryl Royale | The Professionals"),
-	_S("Sir Bloody Darryl Royale | The Professionals"),
-	_S("Sir Bloody Miami Darryl | The Professionals"),
-	_S("Soldier | Phoenix"),
-	_S("Slingshot | Phoenix"),
-	_S("Enforcer | Phoenix"),
-	_S("Mr. Muhlik | Elite Crew"),
-	_S("Prof. Shahmat | Elite Crew"),
-	_S("Osiris | Elite Crew"),
-	_S("Ground Rebel | Elite Crew"),
-	_S("The Elite Mr. Muhlik | Elite Crew"),
-	_S("Trapper | Guerrilla Warfare"),
-	_S("Trapper Aggressor | Guerrilla Warfare"),
-	_S("Vypa Sista of the Revolution | Guerrilla Warfare"),
-	_S("Col. Mangos Dabisi | Guerrilla Warfare"),
-	_S("Arno The Overgrown | Guerrilla Warfare"),
-	_S("'Medium Rare' Crasswater | Guerrilla Warfare"),
-	_S("Crasswater The Forgotten | Guerrilla Warfare"),
-	_S("Elite Trapper Solman | Guerrilla Warfare"),
-	_S("'The Doctor' Romanov | Sabre"),
-	_S("Blackwolf | Sabre"),
-	_S("Maximus | Sabre"),
-	_S("Dragomir | Sabre"),
-	_S("Rezan The Ready | Sabre"),
-	_S("Rezan the Redshirt | Sabre"),
-	_S("Dragomir | Sabre Footsoldier"),
+			("None"),
+	("Getaway Sally"),
+	("Number K"),
+	("Little Kev"),
+	("Safecracker Voltzmann"),
+	("Bloody Darryl The Strapped"),
+	("Sir Bloody Loudmouth Darryl"),
+	("Sir Bloody Darryl Royale"),
+	("Sir Bloody Darryl Royale"),
+	("Sir Bloody Miami Darryl"),
+	("Soldier"),
+	("Slingshot"),
+	("Enforcer"),
+	("Mr. Muhlik"),
+	("Prof. Shahmat"),
+	("Osiris"),
+	("Ground Rebel"),
+	("The Elite Mr. Muhlik"),
+	("Trapper"),
+	("Trapper Aggressor"),
+	("Vypa Sista of the Revolution"),
+	("Col. Mangos Dabisi"),
+	("Arno The Overgrown"),
+	("'Medium Rare' Crasswater"),
+	("Crasswater The Forgotten"),
+	("Elite Trapper Solman"),
+	("'The Doctor' Romanov"),
+	("Blackwolf"),
+	("Maximus"),
+	("Dragomir"),
+	("Rezan The Ready"),
+	("Rezan the Redshirt"),
+	("Dragomir")
 		};
 
-		std::vector <const char*> ct_model =
+		std::vector < const char* > ct_model
+			=
 		{
-	_S("None"),
-	_S("Cmdr. Davida 'Goggles' Fernandez | SEAL Frogman"),
-	_S("Cmdr. Frank 'Wet Sox' Baroud | SEAL Frogman"),
-	_S("Lieutenant Rex Krikey | SEAL Frogman"),
-	_S("Michael Syfers | FBI Sniper"),
-	_S("Operator | FBI SWAT"),
-	_S("Special Agent Ava | FBI"),
-	_S("Markus Delrow | FBI HRT"),
-	_S("Sous-Lieutenant Medic | Gendarmerie Nationale"),
-	_S("Chem-Haz Capitaine | Gendarmerie Nationale"),
-	_S("Chef d'Escadron Rouchard | Gendarmerie Nationale"),
-	_S("Aspirant | Gendarmerie Nationale"),
-	_S("Officer Jacques Beltram | Gendarmerie Nationale"),
-	_S("D Squadron Officer | NZSAS"),
-	_S("B Squadron Officer | SAS"),
-	_S("Seal Team 6 Soldier | NSWC SEAL"),
-	_S("Buckshot | NSWC SEAL"),
-	_S("Lt. Commander Ricksaw | NSWC SEAL"),
-	_S("Lt. Commander Ricksaw | NSWC SEAL"),
-	_S("'Blueberries' Buckshot | NSWC SEAL"),
-	_S("3rd Commando Company | KSK"),
-	_S("'Two Times' McCoy | TACP Cavalry"),
-	_S("'Two Times' McCoy | USAF TACP"),
-	_S("Primeiro Tenente | Brazilian 1st Battalion"),
-	_S("Cmdr. Mae 'Dead Cold' Jamison | SWAT"),
-	_S("1st Lieutenant Farlow | SWAT"),
-	_S("John 'Van Healen' Kask | SWAT"),
-	_S("Bio-Haz Specialist | SWAT"),
-	_S("Sergeant Bombson | SWAT"),
-	_S("Chem-Haz Specialist | SWAT"),
-	_S("Lieutenant 'Tree Hugger' Farlow | SWAT"),
+	("None"),
+	("Cmdr. Davida 'Goggles'"),
+	("Cmdr. Frank 'Wet Sox'"),
+	("Lieutenant Rex Krikey"),
+	("Michael Syfers"),
+	("OperatorT"),
+	("Agent Ava"),
+	("Markus Delrow"),
+	("Sous-Lieutenant Medic"),
+	("Chem-Haz Capitaine"),
+	("Chef d'Escadron Rouchard"),
+	("Aspirant"),
+	("Officer Jacques Beltram"),
+	("D Squadron Officer"),
+	("B Squadron Officer"),
+	("Seal Team 6 Soldier"),
+	("Buckshot"),
+	("Lt. Commander Ricksaw"),
+	("Lt. Commander Ricksaw"),
+	("'Blueberries' Buckshot"),
+	("3rd Commando Company"),
+	("'Two Times' McCoy"),
+	("'Two Times' McCoy"),
+	("Primeiro Tenente"),
+	("Cmdr. Mae 'Dead Cold' Jamison"),
+	("1st Lieutenant Farlow"),
+	("John 'Van Healen' Kask"),
+	("Bio-Haz Specialist"),
+	("Sergeant Bombson"),
+	("Chem-Haz Specialist"),
+	("Lieutenant 'Tree Hugger' Farlow")
 		};
 
 		ImGui::Checkbox(_S("Hold fire animation"), g_cfg->m_bHoldFireAnimation);
 		ImGui::Checkbox(_S("Filter server ads"), g_cfg->m_bAdBlock);
 		ImGui::Checkbox(_S("Filter console"), g_cfg->m_bFilterConsole);
-		ImGui::SingleSelect(_S("T model"), g_cfg->m_nModelT, t_model);
-		ImGui::SingleSelect(_S("CT model"), g_cfg->m_nModelCT, ct_model);
+		ImGui::SingleSelect(("CT model"), g_cfg->m_nModelCT, ct_model);
+		ImGui::SingleSelect(("T model"), g_cfg->m_nModelT, t_model);
 
 		//ImGui::Checkbox(_S("Fix scope sensivity"), g_cfg->m_fixZomSens);
 		ImGui::Checkbox(_S("Unlock convars"), g_cfg->m_bUnhideConvars);
@@ -1060,7 +1008,7 @@ void C_Menu::DrawMiscTab()
 
 		ImGui::Checkbox(_S("Clantag"), g_cfg->m_bTagChanger);
 		ImGui::Checkbox(_S("Hitsound"), g_cfg->m_bHitSound);
-	//	ImGui::Checkbox(_S("Killsound"), g_cfg->m_bKillsound);
+		//	ImGui::Checkbox(_S("Killsound"), g_cfg->m_bKillsound);
 
 		ImGui::Checkbox(_S("Penetration crosshair"), g_cfg->m_bPenetrationCrosshair);
 		ImGui::Checkbox(_S("Force crosshair"), g_cfg->m_bForceCrosshair);
@@ -1113,12 +1061,6 @@ void C_Menu::DrawWorldTab()
 		{
 			_S("None"),	_S("Tibet"),_S("Baggage"),_S("Italy"),_S("Aztec"),_S("Vertigo"),_S("Daylight"),_S("Daylight 2"),_S("Clouds"),_S("Clouds 2"),_S("Gray"),_S("Clear"),_S("Canals"),_S("Cobblestone"),_S("Assault"),_S("Clouds dark"),_S("Night"),_S("Night 2"),_S("Night flat"),_S("Dusty"),_S("Rainy"),_S("Custom")
 		};
-	/*	ImGui::BeginChild(_S("Weather"), ImVec2(iChildDoubleSizeX, iChildDoubleSizeY));
-		ImGui::Checkbox(_S("Enable weather"), g_cfg->m_CustomWeather);
-
-		ImGui::SliderInt(_S("Rain length"), g_cfg->m_RainLength, 1, 100);
-		ImGui::SliderInt(_S("Rain width"), g_cfg->m_RainWidth, 1, 100);
-		ImGui::SliderInt(_S("Rain speed"), g_cfg->m_RainSpeed, 1, 2000);*/
 		ImGui::Text(_S("World color"));
 		this->DrawColorEdit4(_S("##123123"), g_cfg->m_WorldModulation);
 
@@ -1487,9 +1429,6 @@ const char* keyss[] = {
 
 void C_Menu::DrawKeybindList()
 {
-	if (!g_cfg->m_bDrawKeyBindList)
-		return;
-
 	int m_Last = 0;
 	PUSH_BIND(g_cfg->m_aFakeDuck, "Fake Duck");
 	PUSH_BIND(g_cfg->m_aDoubleTap, "Double Tap");
@@ -1508,105 +1447,39 @@ void C_Menu::DrawKeybindList()
 			iCount++;
 	}
 
-	if (iCount <= 0 && !m_bIsMenuOpened)
+	if (iCount <= 0 && !g_Menu->IsMenuOpened())
 		return;
 
 	int nAdvancedFlag = 0;
 	if (!m_bIsMenuOpened)
 		nAdvancedFlag = ImGuiWindowFlags_NoMove;
 
-	if (m_bIsMenuOpened)
+	ImGui::SetNextWindowSize(ImVec2(190, m_BindList.empty() ? 0 : 35 + (27 * iCount)));
+	ImGui::DefaultBegin(_S("Keybind List"), 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | nAdvancedFlag);
+	int32_t x = ImGui::GetCurrentWindow()->Pos.x + 4.5f;
+	int32_t y = ImGui::GetCurrentWindow()->Pos.y;
+
+	ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + 181, y + 27), ImColor(36, 36, 36, 255), 5, ImDrawCornerFlags_Top);
+	ImGui::GetOverlayDrawList()->AddRect(ImVec2(x, y), ImVec2(x + 181, y + 27), ImColor(60, 60, 60, 255), 5, ImDrawCornerFlags_Top);
+	ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x + 5, y + 23), ImVec2(x + 181 - 5, y + 24), ImColor(60, 60, 60, 255));
+
+	ImGui::PushFont(g_sdk.fonts.m_SegoeUI);
+	ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 5, y + 2), ImColor(255, 255, 255), _S("Keybind list"));
+	ImGui::PopFont();
+
+	for (auto& Bind : m_BindList)
 	{
-		ImGui::DefaultBegin(_S("Keybinds"), g_cfg->m_bDrawKeyBindList, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | nAdvancedFlag);
-		{
-			int32_t x = ImGui::GetCurrentWindow()->Pos.x + 4.5f;
-			int32_t y = ImGui::GetCurrentWindow()->Pos.y;
+		if (!Bind.second.m_szName.length())
+			continue;
 
-			ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + 181, y + 22), ImColor(36 / 255.0f, 37 / 255.0f, 41.0f / 255.0f, 170.f / 255.f));
+		ImGui::PushFont(g_sdk.fonts.m_SegoeUI);
+		ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 5, 32 + (y + 16 * m_Last)), ImColor(150, 150, 150, static_cast <int>(Bind.second.m_flAlphaPercent * 255.0f)), Bind.second.m_szName.c_str());
+		ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 160, 32 + (y + 16 * m_Last)), ImColor(150, 150, 150, static_cast <int>(Bind.second.m_flAlphaPercent * 255.0f)), _S("On"));
+		ImGui::PopFont();
 
-			ImGui::PushFont(g_sdk.fonts.m_LogFont);
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 65, y + 2), ImColor(255, 255, 255), _S("Keybinds"));
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 27), ImColor(255, 255, 255), _S("Double Tap"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 27), ImColor(255, 255, 255), g_cfg->m_aDoubleTap->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 27), ImColor(255, 255, 255), keyss[g_cfg->m_aDoubleTap->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 40), ImColor(255, 255, 255), _S("Hide Shots"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 40), ImColor(255, 255, 255), g_cfg->m_aHideShots->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 40), ImColor(255, 255, 255), keyss[g_cfg->m_aHideShots->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 52), ImColor(255, 255, 255), _S("Auto Peek"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 52), ImColor(255, 255, 255), g_cfg->m_aAutoPeek->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 52), ImColor(255, 255, 255), keyss[g_cfg->m_aAutoPeek->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 64), ImColor(255, 255, 255), _S("Slow Walk"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 64), ImColor(255, 255, 255), g_cfg->m_aSlowwalk->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 64), ImColor(255, 255, 255), keyss[g_cfg->m_aSlowwalk->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 76), ImColor(255, 255, 255), _S("Fake Duck"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 76), ImColor(255, 255, 255), g_cfg->m_aFakeDuck->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 76), ImColor(255, 255, 255), keyss[g_cfg->m_aFakeDuck->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 88), ImColor(255, 255, 255), _S("Inverter"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 88), ImColor(255, 255, 255), g_cfg->m_aInverter->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 88), ImColor(255, 255, 255), keyss[g_cfg->m_aInverter->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 98), ImColor(255, 255, 255), _S("Dmg Override"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 98), ImColor(255, 255, 255), g_cfg->m_aMinDamage->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 98), ImColor(255, 255, 255), keyss[g_cfg->m_aMinDamage->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 110), ImColor(255, 255, 255), _S("Safe Points"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 110), ImColor(255, 255, 255), g_cfg->m_aSafePoint->m_iModeSelected == 0 ? _S("Toggle") : _S("Hold"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 110), ImColor(255, 255, 255), keyss[g_cfg->m_aSafePoint->m_iKeySelected]);
-
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, y + 122), ImColor(255, 255, 255), _S("Edge Jump"));
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 85, y + 122), ImColor(255, 255, 255), g_cfg->m_aEdgeJump->m_iKeySelected == 0 ? "Toggle" : "Hold");
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 145, y + 122), ImColor(255, 255, 255), keyss[g_cfg->m_aEdgeJump->m_iKeySelected]);
-
-			ImGui::PopFont();
-		}
-		ImGui::DefaultEnd();
+		m_Last++;
 	}
-	else if (!m_bIsMenuOpened)
-	{
-		ImGui::DefaultBegin(_S("Keybinds"), g_cfg->m_bDrawKeyBindList, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | nAdvancedFlag);
-		{
-			int32_t x = ImGui::GetCurrentWindow()->Pos.x + 4.5f;
-			int32_t y = ImGui::GetCurrentWindow()->Pos.y;
-
-			ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + 181, y + 22), ImColor(36 / 255.0f, 37 / 255.0f, 41.0f / 255.0f, 170.f / 255.f));
-			//ImGui::GetOverlayDrawList( )->AddRectFilled( ImVec2( x, y + 22 ), ImVec2( x + 181, y + 22.27f ), ImColor( 0.0f, 115.0f / 255.0f, 222.0f / 255.0f, 1.0f ) );
-			ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x, y + 22.27f), ImVec2(x + 181, y + 22.30f), ImColor(0.0f, 115.0f / 255.0f, 222.0f / 255.0f, 0.65f));
-
-			//ImGui::PushFont( g_sdk.fonts.m_MenuIcons );
-			//ImGui::GetOverlayDrawList( )->AddText( ImVec2( x + 5, y + 2 ), ImColor( 71, 163, 255 ), _S( "a" ) );
-			//ImGui::PopFont( );
-
-			//ImGui::SetCursorPos(ImVec2(10, 10));
-			//ImGui::Image(this->GetTexture(), ImVec2(50, 70));
-
-			ImGui::PushFont(g_sdk.fonts.m_LogFont);
-			ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 65, y + 2), ImColor(255, 255, 255), _S("Keybinds"));
-			ImGui::PopFont();
-
-			for (auto& Bind : m_BindList)
-			{
-				if (!Bind.second.m_szName.length())
-					continue;
-
-				ImGui::PushFont(g_sdk.fonts.m_LogFont);
-				ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 2, 27 + (y + 16 * m_Last)), ImColor(255, 255, 255, static_cast <int>(Bind.second.m_flAlphaPercent * 255.0f)), Bind.second.m_szName.c_str());
-				ImGui::GetOverlayDrawList()->AddText(ImVec2(x + 160, 27 + (y + 16 * m_Last)), ImColor(255, 255, 255, static_cast <int>(Bind.second.m_flAlphaPercent * 255.0f)), _S("on"));
-				ImGui::PopFont();
-
-				//ImGui::GetOverlayDrawList()->AddRectFilled(ImVec2(x, y), ImVec2(x + 181, 27 + (y + 16 * m_Last)), ImColor(255 / 255.0f, 0 / 255.0f, 255 / 255.0f, 1.f));
-
-				m_Last++;
-			}
-		}
-		//ImGui::GetOverlayDrawList()->PopClipRect();
-		ImGui::DefaultEnd();
-	}
+	ImGui::DefaultEnd();
 }
 
 void C_Menu::DrawSpectatorList()
